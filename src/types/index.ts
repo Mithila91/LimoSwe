@@ -18,7 +18,8 @@ export interface Vehicle {
   capacity?: number;
   luggage?: string;
   shortDescription?: string;
-  description?: unknown[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  description?: any[];
   heroImage: SanityImageSource;
   gallery?: SanityImageSource[];
   amenities?: string[];
