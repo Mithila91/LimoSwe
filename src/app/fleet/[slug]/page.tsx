@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, Leaf, Users, Briefcase, CheckCircle } from "lucide-react";
+import { PortableText } from "@portabletext/react";
 import { client } from "@/sanity/client";
 import {
   vehicleBySlugQuery,
@@ -112,6 +113,12 @@ export default async function VehiclePage({ params }: PageProps) {
                 <p className="font-serif text-heading-2 text-limo-white/90 font-light leading-relaxed mb-8">
                   {vehicle.shortDescription}
                 </p>
+              )}
+
+              {vehicle.description && (
+                <div className="font-sans text-body-base text-limo-muted leading-relaxed mb-8 prose prose-invert max-w-none [&>p]:mb-4 [&>p]:text-limo-muted [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:mb-4 [&>ul>li]:text-limo-muted [&>h2]:font-serif [&>h2]:text-limo-white [&>h2]:text-heading-3 [&>h2]:font-light [&>h2]:mb-3">
+                  <PortableText value={vehicle.description} />
+                </div>
               )}
 
               <div className="w-16 h-px bg-limo-gold mb-10" />
