@@ -14,6 +14,7 @@ import { VEHICLE_CLASS_LABELS } from "@/types";
 import type { Vehicle } from "@/types";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import GalleryLightbox from "@/components/GalleryLightbox";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -221,25 +222,12 @@ export default async function VehiclePage({ params }: PageProps) {
               <h2 className="font-sans text-label text-limo-gold tracking-[0.25em] uppercase mb-8">
                 Gallery
               </h2>
-              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-                {vehicle.gallery.map((img, i) => {
-                  const src = urlFor(img).width(800).height(600).auto("format").url();
-                  return (
-                    <div
-                      key={i}
-                      className="relative aspect-[4/3] overflow-hidden bg-limo-border"
-                    >
-                      <Image
-                        src={src}
-                        alt={`${vehicle.name} photo ${i + 1}`}
-                        fill
-                        sizes="(max-width: 768px) 50vw, 33vw"
-                        className="object-cover hover:scale-105 transition-transform duration-500"
-                      />
-                    </div>
-                  );
-                })}
-              </div>
+              <GalleryLightbox
+                images={vehicle.gallery.map((img, i) => ({
+                  src: urlFor(img).width(1400).height(900).auto("format").url(),
+                  alt: `${vehicle.name} photo ${i + 1}`,
+                }))}
+              />
             </div>
           )}
         </div>
