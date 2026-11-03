@@ -105,17 +105,24 @@ export default function TestimonialsSection({
                 }`}
               >
                 <Stars count={t.rating} />
-                <blockquote className="font-serif text-body-large text-limo-white/90 font-light italic leading-relaxed mt-6 mb-8 flex-1">
-                  &ldquo;{t.body}&rdquo;
+                <blockquote className="font-serif text-body-large text-limo-white/90 font-light italic leading-relaxed mt-6 flex-1">
+                  <span className="line-clamp-3">&ldquo;{t.body}&rdquo;</span>
                 </blockquote>
-                <div className="flex items-center justify-between pt-6 border-t border-limo-border">
+
+                {t.reviewUrl && (
+                  <span className="inline-flex items-center gap-1.5 font-sans text-body-small text-limo-gold/70 hover:text-limo-gold transition-colors mt-3">
+                    Read on Google
+                    <ExternalLink size={11} strokeWidth={1.5} />
+                  </span>
+                )}
+
+                <div className="flex items-center justify-between pt-6 mt-6 border-t border-limo-border">
                   <span className="font-sans text-body-small text-limo-white font-medium">
                     {t.author}
                   </span>
                   {t.source === "google" && (
-                    <span className="inline-flex items-center gap-1.5 font-sans text-label text-limo-muted tracking-[0.1em] uppercase text-[10px]">
+                    <span className="font-sans text-label text-limo-muted tracking-[0.1em] uppercase text-[10px]">
                       Google
-                      {t.reviewUrl && <ExternalLink size={10} strokeWidth={1.5} />}
                     </span>
                   )}
                 </div>
