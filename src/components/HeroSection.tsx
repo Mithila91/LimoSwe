@@ -6,25 +6,50 @@ import { ChevronDown } from "lucide-react";
 interface HeroSectionProps {
   headline?: string;
   tagline?: string;
+  imageUrl?: string;
+  videoUrl?: string;
+  mediaType?: "image" | "video" | "videoUrl";
 }
 
 export default function HeroSection({
   headline = "Your Private Chauffeur Service In Stockholm",
   tagline = "Luxury · Safety · Service",
+  imageUrl,
+  videoUrl,
+  mediaType = "image",
 }: HeroSectionProps) {
+  const isVideo = (mediaType === "video" || mediaType === "videoUrl") && !!videoUrl;
+
   return (
     <section className="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden">
-      {/* Background — dark gradient overlay on a placeholder; swap for Sanity heroImage */}
-      <div className="absolute inset-0 bg-gradient-to-b from-limo-black via-limo-black/70 to-limo-black z-10" />
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage:
-            "url('https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=2000&q=80')",
-        }}
-      />
 
-      {/* Subtle grid overlay for texture */}
+      {/* Background media */}
+      {isVideo ? (
+        <video
+          key={videoUrl}
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src={videoUrl} type="video/mp4" />
+        </video>
+      ) : (
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: imageUrl
+              ? `url('${imageUrl}')`
+              : "url('https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=2000&q=80')",
+          }}
+        />
+      )}
+
+      {/* Dark gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-limo-black/60 via-limo-black/40 to-limo-black z-10" />
+
+      {/* Subtle grid texture */}
       <div
         className="absolute inset-0 z-10 opacity-[0.03]"
         style={{
@@ -35,7 +60,6 @@ export default function HeroSection({
 
       {/* Content */}
       <div className="relative z-20 text-center px-6 max-w-5xl mx-auto">
-        {/* Tagline above headline */}
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -45,7 +69,6 @@ export default function HeroSection({
           {tagline}
         </motion.p>
 
-        {/* Headline */}
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -55,7 +78,6 @@ export default function HeroSection({
           {headline}
         </motion.h1>
 
-        {/* Gold rule */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
@@ -63,7 +85,6 @@ export default function HeroSection({
           className="w-24 h-px bg-limo-gold mx-auto mb-10"
         />
 
-        {/* CTAs */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}

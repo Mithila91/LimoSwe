@@ -43,6 +43,12 @@ export default defineType({
       type: "date",
     }),
     defineField({
+      name: "reviewUrl",
+      title: "Google Review URL",
+      type: "url",
+      description: "Paste the direct link to this review on Google Maps so visitors can view it",
+    }),
+    defineField({
       name: "featured",
       title: "Featured",
       type: "boolean",

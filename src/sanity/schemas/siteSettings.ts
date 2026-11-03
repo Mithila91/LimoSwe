@@ -48,10 +48,45 @@ export default defineType({
       initialValue: "Luxury · Safety · Service",
     }),
     defineField({
+      name: "heroMediaType",
+      title: "Hero Background Type",
+      type: "string",
+      options: {
+        list: [
+          { title: "Image", value: "image" },
+          { title: "Video (upload MP4)", value: "video" },
+          { title: "Video (external URL)", value: "videoUrl" },
+        ],
+        layout: "radio",
+      },
+      initialValue: "image",
+    }),
+    defineField({
       name: "heroImage",
       title: "Hero Background Image",
       type: "image",
       options: { hotspot: true },
+      hidden: ({ document }) => document?.heroMediaType !== "image" && document?.heroMediaType !== undefined,
+    }),
+    defineField({
+      name: "heroVideo",
+      title: "Hero Background Video (MP4 upload)",
+      type: "file",
+      options: { accept: "video/mp4,video/webm" },
+      hidden: ({ document }) => document?.heroMediaType !== "video",
+    }),
+    defineField({
+      name: "heroVideoUrl",
+      title: "Hero Background Video URL",
+      type: "url",
+      description: "Direct link to an MP4 file (e.g. from a CDN or cloud storage)",
+      hidden: ({ document }) => document?.heroMediaType !== "videoUrl",
+    }),
+    defineField({
+      name: "googleBusinessUrl",
+      title: "Google Business Profile URL",
+      type: "url",
+      description: "Link to your Google Maps business listing — used for 'Read all reviews' button",
     }),
     defineField({
       name: "metaTitle",

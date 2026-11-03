@@ -39,6 +39,7 @@ export interface Testimonial {
   rating: number;
   source: "google" | "direct";
   date?: string;
+  reviewUrl?: string;
 }
 
 export interface SiteSettings {
@@ -48,7 +49,10 @@ export interface SiteSettings {
   email: string;
   heroHeadline: string;
   heroTagline: string;
+  heroMediaType?: "image" | "video" | "videoUrl";
   heroImage?: SanityImageSource;
+  heroVideoUrl?: string;
+  googleBusinessUrl?: string;
   metaTitle?: string;
   metaDescription?: string;
   logo?: SanityImageSource;

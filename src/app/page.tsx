@@ -9,6 +9,7 @@ import type { Vehicle, Service, Testimonial, SiteSettings } from "@/types";
 
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
+import { urlFor } from "@/sanity/imageUrl";
 import AboutSection from "@/components/AboutSection";
 import ConciergSection from "@/components/ConciergSection";
 import FleetSection from "@/components/FleetSection";
@@ -34,12 +35,15 @@ export default async function HomePage() {
         <HeroSection
           headline={settings?.heroHeadline}
           tagline={settings?.heroTagline}
+          mediaType={settings?.heroMediaType}
+          imageUrl={settings?.heroImage ? urlFor(settings.heroImage).width(2000).auto("format").url() : undefined}
+          videoUrl={settings?.heroVideoUrl}
         />
         <AboutSection />
         <ConciergSection />
         <FleetSection vehicles={vehicles} />
         <ServicesSection services={services} />
-        <TestimonialsSection testimonials={testimonials} />
+        <TestimonialsSection testimonials={testimonials} googleBusinessUrl={settings?.googleBusinessUrl} />
         <BookingSection vehicles={vehicles} />
       </main>
       <Footer />

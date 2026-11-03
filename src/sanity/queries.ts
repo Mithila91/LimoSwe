@@ -53,6 +53,7 @@ export const featuredTestimonialsQuery = groq`
     rating,
     source,
     date,
+    reviewUrl,
   }
 `;
 
@@ -64,7 +65,13 @@ export const siteSettingsQuery = groq`
     email,
     heroHeadline,
     heroTagline,
+    heroMediaType,
     heroImage,
+    "heroVideoUrl": select(
+      heroMediaType == "video" => heroVideo.asset->url,
+      heroMediaType == "videoUrl" => heroVideoUrl,
+    ),
+    googleBusinessUrl,
     metaTitle,
     metaDescription,
     logo,

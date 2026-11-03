@@ -2,7 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Star } from "lucide-react";
+import { Star, ExternalLink } from "lucide-react";
 import type { Testimonial } from "@/types";
 
 const FALLBACK: Testimonial[] = [
@@ -31,19 +31,14 @@ const FALLBACK: Testimonial[] = [
 
 interface TestimonialsSectionProps {
   testimonials: Testimonial[];
+  googleBusinessUrl?: string;
 }
 
 function Stars({ count }: { count: number }) {
   return (
     <div className="flex gap-1">
       {Array.from({ length: count }).map((_, i) => (
-        <Star
-          key={i}
-          size={12}
-          fill="currentColor"
-          strokeWidth={0}
-          className="text-limo-gold"
-        />
+        <Star key={i} size={12} fill="currentColor" strokeWidth={0} className="text-limo-gold" />
       ))}
     </div>
   );
@@ -51,6 +46,7 @@ function Stars({ count }: { count: number }) {
 
 export default function TestimonialsSection({
   testimonials,
+  googleBusinessUrl,
 }: TestimonialsSectionProps) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
@@ -68,40 +64,78 @@ export default function TestimonialsSection({
           Testimonials
         </motion.p>
 
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.1 }}
-          className="font-serif text-display-3 text-limo-white font-light mb-16"
-        >
-          What Our Clients Say
-        </motion.h2>
+        <div className="flex items-end justify-between mb-16 flex-wrap gap-4">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            className="font-serif text-display-3 text-limo-white font-light"
+          >
+            What Our Clients Say
+          </motion.h2>
+
+          {googleBusinessUrl && (
+            <motion.a
+              initial={{ opacity: 0 }}
+              animate={inView ? { opacity: 1 } : {}}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              href={googleBusinessUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 font-sans text-label text-limo-muted hover:text-limo-gold tracking-[0.15em] uppercase transition-colors duration-300"
+            >
+              Read all reviews
+              <ExternalLink size={12} strokeWidth={1.5} />
+            </motion.a>
+          )}
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {display.map((t, i) => (
-            <motion.div
-              key={t._id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.2 + i * 0.1 }}
-              className="p-8 border border-limo-border bg-limo-black"
-            >
-              <Stars count={t.rating} />
-              <blockquote className="font-serif text-body-large text-limo-white/90 font-light italic leading-relaxed mt-6 mb-8">
-                &ldquo;{t.body}&rdquo;
-              </blockquote>
-              <div className="flex items-center justify-between pt-6 border-t border-limo-border">
-                <span className="font-sans text-body-small text-limo-white font-medium">
-                  {t.author}
-                </span>
-                {t.source === "google" && (
-                  <span className="font-sans text-label text-limo-muted tracking-[0.1em] uppercase text-[10px]">
-                    Google Review
+          {display.map((t, i) => {
+            const Card = (
+              <motion.div
+                key={t._id}
+                initial={{ opacity: 0, y: 30 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: 0.2 + i * 0.1 }}
+                className={`p-8 border bg-limo-black flex flex-col h-full transition-colors duration-300 ${
+                  t.reviewUrl
+                    ? "border-limo-border hover:border-limo-gold/40 cursor-pointer"
+                    : "border-limo-border"
+                }`}
+              >
+                <Stars count={t.rating} />
+                <blockquote className="font-serif text-body-large text-limo-white/90 font-light italic leading-relaxed mt-6 mb-8 flex-1">
+                  &ldquo;{t.body}&rdquo;
+                </blockquote>
+                <div className="flex items-center justify-between pt-6 border-t border-limo-border">
+                  <span className="font-sans text-body-small text-limo-white font-medium">
+                    {t.author}
                   </span>
-                )}
-              </div>
-            </motion.div>
-          ))}
+                  {t.source === "google" && (
+                    <span className="inline-flex items-center gap-1.5 font-sans text-label text-limo-muted tracking-[0.1em] uppercase text-[10px]">
+                      Google
+                      {t.reviewUrl && <ExternalLink size={10} strokeWidth={1.5} />}
+                    </span>
+                  )}
+                </div>
+              </motion.div>
+            );
+
+            return t.reviewUrl ? (
+              <a
+                key={t._id}
+                href={t.reviewUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block"
+              >
+                {Card}
+              </a>
+            ) : (
+              <div key={t._id}>{Card}</div>
+            );
+          })}
         </div>
       </div>
     </section>
