@@ -105,7 +105,7 @@ export default function TestimonialsSection({
                 }`}
               >
                 <Stars count={t.rating} />
-                <blockquote className="font-serif text-body-large text-limo-white/90 font-light italic leading-relaxed mt-6 flex-1">
+                <blockquote className="font-sans text-body-base text-limo-white/80 font-light leading-relaxed mt-6 flex-1">
                   <span className="line-clamp-3">&ldquo;{t.body}&rdquo;</span>
                 </blockquote>
 
