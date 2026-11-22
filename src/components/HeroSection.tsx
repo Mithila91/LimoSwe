@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 
 interface HeroSectionProps {
+  brandName?: string;
   headline?: string;
   tagline?: string;
   imageUrl?: string;
@@ -12,6 +13,7 @@ interface HeroSectionProps {
 }
 
 export default function HeroSection({
+  brandName = "Limousine Sweden",
   headline = "Your Private Chauffeur Service In Stockholm",
   tagline = "Luxury · Safety · Service",
   imageUrl,
@@ -47,7 +49,7 @@ export default function HeroSection({
       )}
 
       {/* Dark gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-limo-black/60 via-limo-black/40 to-limo-black z-10" />
+      <div className="absolute inset-0 z-10" style={{ background: "linear-gradient(to bottom, rgba(5,5,10,0.85) 0%, rgba(5,5,10,0.70) 40%, rgba(5,5,10,0.92) 100%)" }} />
 
       {/* Subtle grid texture */}
       <div
@@ -64,16 +66,29 @@ export default function HeroSection({
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="font-sans text-label text-limo-gold tracking-[0.35em] uppercase mb-6"
+          className="font-sans text-label text-limo-gold tracking-[0.25em] uppercase mb-6 whitespace-nowrap"
         >
           {tagline}
         </motion.p>
 
+        {brandName && (
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.35 }}
+            className="font-serif font-light tracking-[0.08em] mb-3 text-limo-gold"
+            style={{ fontSize: "clamp(2rem, 6vw, 5rem)", lineHeight: 1.1 }}
+          >
+            {brandName}
+          </motion.div>
+        )}
+
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.4 }}
-          className="font-serif text-display-2 lg:text-display-1 text-limo-white font-light leading-tight mb-8"
+          transition={{ duration: 0.9, delay: 0.5 }}
+          className="font-serif font-light leading-tight mb-8 text-limo-white/80"
+          style={{ fontSize: "clamp(1.25rem, 2.5vw, 2rem)" }}
         >
           {headline}
         </motion.h1>
@@ -89,17 +104,17 @@ export default function HeroSection({
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.9 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center"
+          className="flex flex-row gap-3 justify-center flex-wrap"
         >
           <a
             href="#fleet"
-            className="inline-flex items-center justify-center px-10 py-4 border border-limo-gold text-limo-gold font-sans text-label tracking-[0.2em] uppercase hover:bg-limo-gold hover:text-limo-black transition-all duration-300"
+            className="inline-flex items-center justify-center px-6 py-3 sm:px-10 sm:py-4 border border-limo-gold text-limo-gold font-sans text-label tracking-[0.2em] uppercase hover:bg-limo-gold hover:text-limo-black transition-all duration-300 text-[10px] sm:text-xs"
           >
             View Fleet
           </a>
           <a
             href="#booking"
-            className="inline-flex items-center justify-center px-10 py-4 bg-limo-gold text-limo-black font-sans text-label tracking-[0.2em] uppercase hover:bg-limo-gold-light transition-all duration-300"
+            className="inline-flex items-center justify-center px-6 py-3 sm:px-10 sm:py-4 bg-limo-gold text-limo-black font-sans text-label tracking-[0.2em] uppercase hover:bg-limo-gold-light transition-all duration-300 text-[10px] sm:text-xs"
           >
             Book Your Chauffeur
           </a>

@@ -33,6 +33,7 @@ export default async function HomePage() {
       <Navbar />
       <main>
         <HeroSection
+          brandName={settings?.heroBrandName}
           headline={settings?.heroHeadline}
           tagline={settings?.heroTagline}
           mediaType={settings?.heroMediaType}

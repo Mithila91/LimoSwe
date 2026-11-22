@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone } from "lucide-react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
@@ -36,13 +37,15 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between h-20">
           {/* Logo */}
-          <a href="/" className="flex flex-col leading-none group">
-            <span className="font-serif text-2xl font-light tracking-[0.12em] text-limo-white group-hover:text-limo-gold transition-colors duration-300">
-              LIMO
-            </span>
-            <span className="font-sans text-[0.55rem] tracking-[0.3em] text-limo-gold uppercase">
-              Sweden
-            </span>
+          <a href="/" className="flex items-center">
+            <Image
+              src="/limoswelogo.png"
+              alt="Limousine Sweden"
+              width={140}
+              height={48}
+              className="h-10 w-auto object-contain"
+              priority
+            />
           </a>
 
           {/* Desktop nav */}

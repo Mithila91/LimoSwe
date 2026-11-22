@@ -63,6 +63,7 @@ export const siteSettingsQuery = groq`
     phone,
     whatsapp,
     email,
+    heroBrandName,
     heroHeadline,
     heroTagline,
     heroMediaType,

@@ -36,6 +36,13 @@ export default defineType({
       initialValue: "info@limoswe.se",
     }),
     defineField({
+      name: "heroBrandName",
+      title: "Hero Brand Name",
+      type: "string",
+      description: "Large brand name displayed above the headline e.g. 'Limousine Sweden'",
+      initialValue: "Limousine Sweden",
+    }),
+    defineField({
       name: "heroHeadline",
       title: "Hero Headline",
       type: "string",

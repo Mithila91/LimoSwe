@@ -47,6 +47,7 @@ export interface SiteSettings {
   phone: string;
   whatsapp: string;
   email: string;
+  heroBrandName?: string;
   heroHeadline: string;
   heroTagline: string;
   heroMediaType?: "image" | "video" | "videoUrl";
