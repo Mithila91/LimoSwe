@@ -82,10 +82,11 @@ export default function TestimonialsSection({
               href={googleBusinessUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 font-sans text-label text-limo-muted hover:text-limo-gold tracking-[0.15em] uppercase transition-colors duration-300"
+              aria-label="Read all reviews on Google (opens in new tab)"
+              className="inline-flex items-center gap-2 font-sans text-label text-limo-muted hover:text-limo-gold tracking-[0.15em] uppercase transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-limo-gold focus-visible:outline-offset-4"
             >
               Read all reviews
-              <ExternalLink size={12} strokeWidth={1.5} />
+              <ExternalLink size={12} strokeWidth={1.5} aria-hidden="true" />
             </motion.a>
           )}
         </div>
@@ -105,12 +106,12 @@ export default function TestimonialsSection({
                 }`}
               >
                 <Stars count={t.rating} />
-                <blockquote className="font-sans text-body-base text-limo-white/80 font-light leading-relaxed mt-6 flex-1">
+                <blockquote className="font-sans text-body-base text-limo-white font-light leading-relaxed mt-6 flex-1">
                   <span className="line-clamp-3">&ldquo;{t.body}&rdquo;</span>
                 </blockquote>
 
                 {t.reviewUrl && (
-                  <span className="inline-flex items-center gap-1.5 font-sans text-body-small text-limo-gold/70 hover:text-limo-gold transition-colors mt-3">
+                  <span className="inline-flex items-center gap-1.5 font-sans text-body-small text-limo-gold transition-colors mt-3" aria-hidden="true">
                     Read on Google
                     <ExternalLink size={11} strokeWidth={1.5} />
                   </span>
@@ -135,7 +136,8 @@ export default function TestimonialsSection({
                 href={t.reviewUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block"
+                aria-label={`Read ${t.author}'s review on Google (opens in new tab)`}
+                className="block focus-visible:outline focus-visible:outline-2 focus-visible:outline-limo-gold"
               >
                 {Card}
               </a>

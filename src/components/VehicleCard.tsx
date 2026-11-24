@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { Leaf, Users, ArrowRight } from "lucide-react";
@@ -17,17 +17,20 @@ export default function VehicleCard({ vehicle, index = 0 }: VehicleCardProps) {
   const imageUrl = vehicle.heroImage
     ? urlFor(vehicle.heroImage).width(800).height(520).auto("format").url()
     : null;
+  const shouldReduceMotion = useReducedMotion();
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.6, delay: index * 0.08 }}
+      {...(shouldReduceMotion ? {} : {
+        initial: { opacity: 0, y: 30 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true, margin: "-60px" },
+        transition: { duration: 0.6, delay: index * 0.08 },
+      })}
     >
       <Link
         href={`/fleet/${vehicle.slug}`}
-        className="group block bg-limo-surface border border-limo-border hover:border-limo-gold/40 transition-all duration-500 overflow-hidden"
+        className="group block bg-limo-surface border border-limo-border hover:border-limo-gold/40 transition-all duration-500 overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-limo-gold focus-visible:outline-offset-2"
       >
         {/* Image */}
         <div className="relative aspect-[16/9] overflow-hidden bg-limo-border">
@@ -71,6 +74,7 @@ export default function VehicleCard({ vehicle, index = 0 }: VehicleCardProps) {
               size={16}
               strokeWidth={1}
               className="text-limo-muted group-hover:text-limo-gold group-hover:translate-x-1 transition-all duration-300 flex-shrink-0 mt-1"
+              aria-hidden="true"
             />
           </div>
 

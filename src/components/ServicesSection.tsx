@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 import { useRef } from "react";
 import {
   Plane,
@@ -50,6 +50,8 @@ const FALLBACK_SERVICES: Service[] = [
 export default function ServicesSection({ services }: ServicesSectionProps) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
+  const shouldReduceMotion = useReducedMotion();
+  const anim = (props: object) => shouldReduceMotion ? {} : props;
 
   const displayServices = services.length > 0 ? services : FALLBACK_SERVICES;
 
@@ -58,27 +60,21 @@ export default function ServicesSection({ services }: ServicesSectionProps) {
       <div className="max-w-7xl mx-auto" ref={ref}>
         {/* Header */}
         <motion.p
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.6 }}
+          {...anim({ initial: { opacity: 0 }, animate: inView ? { opacity: 1 } : {}, transition: { duration: 0.6 } })}
           className="font-sans text-label text-limo-gold tracking-[0.35em] uppercase mb-4"
         >
           Services
         </motion.p>
 
         <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.1 }}
+          {...anim({ initial: { opacity: 0, y: 20 }, animate: inView ? { opacity: 1, y: 0 } : {}, transition: { duration: 0.8, delay: 0.1 } })}
           className="font-serif text-display-3 text-limo-white font-light mb-4"
         >
           How We Serve You
         </motion.h2>
 
         <motion.div
-          initial={{ scaleX: 0 }}
-          animate={inView ? { scaleX: 1 } : {}}
-          transition={{ duration: 0.7, delay: 0.3 }}
+          {...anim({ initial: { scaleX: 0 }, animate: inView ? { scaleX: 1 } : {}, transition: { duration: 0.7, delay: 0.3 } })}
           className="w-16 h-px bg-limo-gold mb-16 origin-left"
         />
 
@@ -89,13 +85,11 @@ export default function ServicesSection({ services }: ServicesSectionProps) {
             return (
               <motion.div
                 key={service._id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.2 + i * 0.07 }}
+                {...anim({ initial: { opacity: 0, y: 20 }, animate: inView ? { opacity: 1, y: 0 } : {}, transition: { duration: 0.5, delay: 0.2 + i * 0.07 } })}
                 className="bg-limo-black p-8 group hover:bg-limo-surface transition-colors duration-300"
               >
                 <div className="w-10 h-10 border border-limo-gold/30 group-hover:border-limo-gold flex items-center justify-center mb-6 transition-colors duration-300">
-                  <Icon size={18} strokeWidth={1} className="text-limo-gold" />
+                  <Icon size={18} strokeWidth={1} className="text-limo-gold" aria-hidden="true" />
                 </div>
                 <h3 className="font-serif text-heading-3 text-limo-white font-light mb-3 group-hover:text-limo-gold transition-colors duration-300">
                   {service.title}

@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -16,6 +16,8 @@ interface GalleryLightboxProps {
 
 export default function GalleryLightbox({ images }: GalleryLightboxProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const shouldReduceMotion = useReducedMotion();
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   const open = (i: number) => setActiveIndex(i);
   const close = () => setActiveIndex(null);
@@ -40,11 +42,14 @@ export default function GalleryLightbox({ images }: GalleryLightboxProps) {
     return () => window.removeEventListener("keydown", onKey);
   }, [activeIndex, prev, next]);
 
-  // Lock body scroll when open
+  // Lock body scroll when open + focus close button
   useEffect(() => {
     document.body.style.overflow = activeIndex !== null ? "hidden" : "";
+    if (activeIndex !== null) closeButtonRef.current?.focus();
     return () => { document.body.style.overflow = ""; };
   }, [activeIndex]);
+
+  const anim = (props: object) => shouldReduceMotion ? {} : props;
 
   return (
     <>
@@ -54,6 +59,7 @@ export default function GalleryLightbox({ images }: GalleryLightboxProps) {
           <button
             key={i}
             onClick={() => open(i)}
+            aria-label={`View ${img.alt} — image ${i + 1} of ${images.length}`}
             className="relative aspect-[4/3] overflow-hidden bg-limo-border group focus:outline-none focus-visible:ring-2 focus-visible:ring-limo-gold"
           >
             <Image
@@ -69,6 +75,7 @@ export default function GalleryLightbox({ images }: GalleryLightboxProps) {
                 className="opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                 width="32" height="32" viewBox="0 0 24 24"
                 fill="none" stroke="#C4A86A" strokeWidth="1.2"
+                aria-hidden="true"
               >
                 <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
               </svg>
@@ -81,24 +88,29 @@ export default function GalleryLightbox({ images }: GalleryLightboxProps) {
       <AnimatePresence>
         {activeIndex !== null && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
+            {...anim({ initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity: 0 }, transition: { duration: 0.25 } })}
+            role="dialog"
+            aria-modal="true"
+            aria-label={`Image ${activeIndex + 1} of ${images.length}: ${images[activeIndex].alt}`}
             className="fixed inset-0 z-50 bg-limo-black/95 backdrop-blur-md flex items-center justify-center"
             onClick={close}
           >
             {/* Close */}
             <button
+              ref={closeButtonRef}
               onClick={close}
-              className="absolute top-6 right-6 text-limo-muted hover:text-limo-white transition-colors z-10"
-              aria-label="Close"
+              className="absolute top-6 right-6 text-limo-muted hover:text-limo-white transition-colors z-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-limo-gold focus-visible:outline-offset-2"
+              aria-label="Close gallery"
             >
-              <X size={24} strokeWidth={1} />
+              <X size={24} strokeWidth={1} aria-hidden="true" />
             </button>
 
             {/* Counter */}
-            <span className="absolute top-6 left-1/2 -translate-x-1/2 font-sans text-label text-limo-muted tracking-[0.2em]">
+            <span
+              aria-live="polite"
+              aria-atomic="true"
+              className="absolute top-6 left-1/2 -translate-x-1/2 font-sans text-label text-limo-muted tracking-[0.2em]"
+            >
               {activeIndex + 1} / {images.length}
             </span>
 
@@ -106,20 +118,17 @@ export default function GalleryLightbox({ images }: GalleryLightboxProps) {
             {images.length > 1 && (
               <button
                 onClick={(e) => { e.stopPropagation(); prev(); }}
-                className="absolute left-4 lg:left-8 text-limo-muted hover:text-limo-gold transition-colors z-10 p-2"
+                className="absolute left-4 lg:left-8 text-limo-muted hover:text-limo-gold transition-colors z-10 p-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-limo-gold focus-visible:outline-offset-2"
                 aria-label="Previous image"
               >
-                <ChevronLeft size={36} strokeWidth={1} />
+                <ChevronLeft size={36} strokeWidth={1} aria-hidden="true" />
               </button>
             )}
 
             {/* Image */}
             <motion.div
               key={activeIndex}
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.96 }}
-              transition={{ duration: 0.2 }}
+              {...anim({ initial: { opacity: 0, scale: 0.96 }, animate: { opacity: 1, scale: 1 }, exit: { opacity: 0, scale: 0.96 }, transition: { duration: 0.2 } })}
               className="relative w-full max-w-5xl max-h-[85vh] mx-16 lg:mx-24"
               onClick={(e) => e.stopPropagation()}
             >
@@ -137,10 +146,10 @@ export default function GalleryLightbox({ images }: GalleryLightboxProps) {
             {images.length > 1 && (
               <button
                 onClick={(e) => { e.stopPropagation(); next(); }}
-                className="absolute right-4 lg:right-8 text-limo-muted hover:text-limo-gold transition-colors z-10 p-2"
+                className="absolute right-4 lg:right-8 text-limo-muted hover:text-limo-gold transition-colors z-10 p-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-limo-gold focus-visible:outline-offset-2"
                 aria-label="Next image"
               >
-                <ChevronRight size={36} strokeWidth={1} />
+                <ChevronRight size={36} strokeWidth={1} aria-hidden="true" />
               </button>
             )}
 
@@ -151,10 +160,11 @@ export default function GalleryLightbox({ images }: GalleryLightboxProps) {
                   <button
                     key={i}
                     onClick={(e) => { e.stopPropagation(); setActiveIndex(i); }}
-                    className={`w-8 h-1 transition-all duration-300 ${
+                    className={`w-8 h-1 transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-limo-gold ${
                       i === activeIndex ? "bg-limo-gold" : "bg-limo-border hover:bg-limo-muted"
                     }`}
                     aria-label={`Go to image ${i + 1}`}
+                    aria-current={i === activeIndex ? "true" : undefined}
                   />
                 ))}
               </div>

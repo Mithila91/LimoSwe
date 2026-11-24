@@ -31,7 +31,7 @@ export default async function HomePage() {
   return (
     <>
       <Navbar />
-      <main>
+      <main id="main-content">
         <HeroSection
           brandName={settings?.heroBrandName}
           headline={settings?.heroHeadline}

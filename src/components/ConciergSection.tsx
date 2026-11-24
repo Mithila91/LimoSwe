@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 import { useRef } from "react";
 import { Sparkles, Phone } from "lucide-react";
 
@@ -16,6 +16,8 @@ const offerings = [
 export default function ConciergSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
+  const shouldReduceMotion = useReducedMotion();
+  const anim = (props: object) => shouldReduceMotion ? {} : props;
 
   return (
     <section
@@ -30,21 +32,17 @@ export default function ConciergSection() {
           {/* Left */}
           <div>
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={inView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.5 }}
+              {...anim({ initial: { opacity: 0, scale: 0.8 }, animate: inView ? { opacity: 1, scale: 1 } : {}, transition: { duration: 0.5 } })}
               className="inline-flex items-center gap-2 mb-6"
             >
-              <Sparkles size={14} className="text-limo-gold" strokeWidth={1} />
+              <Sparkles size={14} className="text-limo-gold" strokeWidth={1} aria-hidden="true" />
               <span className="font-sans text-label text-limo-gold tracking-[0.35em] uppercase">
                 24/7 Concierge
               </span>
             </motion.div>
 
             <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.1 }}
+              {...anim({ initial: { opacity: 0, y: 20 }, animate: inView ? { opacity: 1, y: 0 } : {}, transition: { duration: 0.8, delay: 0.1 } })}
               className="font-serif text-display-3 text-limo-white font-light leading-tight mb-6"
             >
               Beyond the
@@ -53,16 +51,12 @@ export default function ConciergSection() {
             </motion.h2>
 
             <motion.div
-              initial={{ scaleX: 0 }}
-              animate={inView ? { scaleX: 1 } : {}}
-              transition={{ duration: 0.7, delay: 0.3 }}
+              {...anim({ initial: { scaleX: 0 }, animate: inView ? { scaleX: 1 } : {}, transition: { duration: 0.7, delay: 0.3 } })}
               className="w-16 h-px bg-limo-gold mb-8 origin-left"
             />
 
             <motion.p
-              initial={{ opacity: 0 }}
-              animate={inView ? { opacity: 1 } : {}}
-              transition={{ duration: 0.7, delay: 0.4 }}
+              {...anim({ initial: { opacity: 0 }, animate: inView ? { opacity: 1 } : {}, transition: { duration: 0.7, delay: 0.4 } })}
               className="font-sans text-body-large text-limo-muted leading-relaxed mb-10"
             >
               Our round-the-clock concierge service extends far beyond
@@ -72,13 +66,11 @@ export default function ConciergSection() {
             </motion.p>
 
             <motion.a
-              initial={{ opacity: 0, y: 10 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.6 }}
+              {...anim({ initial: { opacity: 0, y: 10 }, animate: inView ? { opacity: 1, y: 0 } : {}, transition: { duration: 0.6, delay: 0.6 } })}
               href="#contact"
-              className="inline-flex items-center gap-3 px-8 py-4 border border-limo-gold text-limo-gold font-sans text-label tracking-[0.2em] uppercase hover:bg-limo-gold hover:text-limo-black transition-all duration-300"
+              className="inline-flex items-center gap-3 px-8 py-4 border border-limo-gold text-limo-gold font-sans text-label tracking-[0.2em] uppercase hover:bg-limo-gold hover:text-limo-black transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-limo-gold focus-visible:outline-offset-2"
             >
-              <Phone size={14} strokeWidth={1.5} />
+              <Phone size={14} strokeWidth={1.5} aria-hidden="true" />
               Contact Us Today
             </motion.a>
           </div>
@@ -88,9 +80,7 @@ export default function ConciergSection() {
             {offerings.map((item, i) => (
               <motion.div
                 key={item}
-                initial={{ opacity: 0, x: 30 }}
-                animate={inView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.2 + i * 0.09 }}
+                {...anim({ initial: { opacity: 0, x: 30 }, animate: inView ? { opacity: 1, x: 0 } : {}, transition: { duration: 0.5, delay: 0.2 + i * 0.09 } })}
                 className="flex items-center gap-4 p-5 border border-limo-border hover:border-limo-gold/40 transition-colors duration-300 group"
               >
                 <div className="w-1 h-full min-h-[1rem] bg-limo-gold/30 group-hover:bg-limo-gold transition-colors duration-300" />

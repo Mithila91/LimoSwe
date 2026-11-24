@@ -1,7 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 import { useRef } from "react";
 import { Shield, Star, Globe } from "lucide-react";
 
@@ -26,15 +25,15 @@ const pillars = [
 export default function AboutSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
+  const shouldReduceMotion = useReducedMotion();
+  const anim = (props: object) => shouldReduceMotion ? {} : props;
 
   return (
     <section id="about" className="section-divider py-28 lg:py-36 px-6">
       <div className="max-w-7xl mx-auto" ref={ref}>
         {/* Section label */}
         <motion.p
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.6 }}
+          {...anim({ initial: { opacity: 0 }, animate: inView ? { opacity: 1 } : {}, transition: { duration: 0.6 } })}
           className="font-sans text-label text-limo-gold tracking-[0.35em] uppercase mb-4"
         >
           About Us
@@ -43,9 +42,7 @@ export default function AboutSection() {
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           {/* Left — headline */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.1 }}
+            {...anim({ initial: { opacity: 0, x: -30 }, animate: inView ? { opacity: 1, x: 0 } : {}, transition: { duration: 0.8, delay: 0.1 } })}
           >
             <h2 className="font-serif text-display-3 text-limo-white font-light leading-tight mb-6">
               Stockholm&apos;s Premier
@@ -69,17 +66,13 @@ export default function AboutSection() {
 
           {/* Right — pillars */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.3 }}
+            {...anim({ initial: { opacity: 0, x: 30 }, animate: inView ? { opacity: 1, x: 0 } : {}, transition: { duration: 0.8, delay: 0.3 } })}
             className="flex flex-col gap-8"
           >
             {pillars.map((pillar, i) => (
               <motion.div
                 key={pillar.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.3 + i * 0.12 }}
+                {...anim({ initial: { opacity: 0, y: 20 }, animate: inView ? { opacity: 1, y: 0 } : {}, transition: { duration: 0.6, delay: 0.3 + i * 0.12 } })}
                 className="flex gap-5 items-start"
               >
                 <div className="flex-shrink-0 w-10 h-10 border border-limo-gold/40 flex items-center justify-center">
@@ -87,6 +80,7 @@ export default function AboutSection() {
                     size={18}
                     strokeWidth={1}
                     className="text-limo-gold"
+                    aria-hidden="true"
                   />
                 </div>
                 <div>

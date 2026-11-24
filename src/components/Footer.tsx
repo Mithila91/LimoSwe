@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Phone, Mail, MessageCircle } from "lucide-react";
 
 export default function Footer() {
@@ -7,18 +8,20 @@ export default function Footer() {
     <footer
       id="contact"
       className="section-divider bg-limo-surface px-6 py-16"
+      aria-label="Site footer"
     >
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
           {/* Brand */}
           <div>
-            <div className="mb-4 leading-none">
-              <div className="font-serif text-2xl font-light tracking-[0.12em] text-limo-white">
-                LIMO
-              </div>
-              <div className="font-sans text-[0.55rem] tracking-[0.3em] text-limo-gold uppercase">
-                Sweden
-              </div>
+            <div className="mb-4">
+              <Image
+                src="/limoswelogo.png"
+                alt="Limousine Sweden"
+                width={120}
+                height={80}
+                className="object-contain"
+              />
             </div>
             <p className="font-sans text-body-small text-limo-muted leading-relaxed max-w-xs">
               Stockholm&apos;s premier private chauffeur service. Available 24/7
@@ -28,31 +31,34 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="font-sans text-label text-limo-gold tracking-[0.25em] uppercase mb-6">
+            <h2 className="font-sans text-label text-limo-gold tracking-[0.25em] uppercase mb-6">
               Contact
-            </h4>
+            </h2>
             <div className="flex flex-col gap-3">
               <a
                 href="tel:+46101717117"
-                className="flex items-center gap-3 text-limo-muted hover:text-limo-gold transition-colors"
+                aria-label="Call us at +46 10 17 17 117"
+                className="flex items-center gap-3 text-limo-muted hover:text-limo-gold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-limo-gold focus-visible:outline-offset-2"
               >
-                <Phone size={14} strokeWidth={1.5} />
+                <Phone size={14} strokeWidth={1.5} aria-hidden="true" />
                 <span className="font-sans text-body-small">+4610 17 17 117</span>
               </a>
               <a
                 href="https://wa.me/46101717117"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 text-limo-muted hover:text-limo-gold transition-colors"
+                aria-label="Contact us on WhatsApp (opens in new tab)"
+                className="flex items-center gap-3 text-limo-muted hover:text-limo-gold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-limo-gold focus-visible:outline-offset-2"
               >
-                <MessageCircle size={14} strokeWidth={1.5} />
+                <MessageCircle size={14} strokeWidth={1.5} aria-hidden="true" />
                 <span className="font-sans text-body-small">WhatsApp</span>
               </a>
               <a
                 href="mailto:info@limoswe.se"
-                className="flex items-center gap-3 text-limo-muted hover:text-limo-gold transition-colors"
+                aria-label="Email us at info@limoswe.se"
+                className="flex items-center gap-3 text-limo-muted hover:text-limo-gold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-limo-gold focus-visible:outline-offset-2"
               >
-                <Mail size={14} strokeWidth={1.5} />
+                <Mail size={14} strokeWidth={1.5} aria-hidden="true" />
                 <span className="font-sans text-body-small">info@limoswe.se</span>
               </a>
             </div>
@@ -60,16 +66,16 @@ export default function Footer() {
 
           {/* Navigation */}
           <div>
-            <h4 className="font-sans text-label text-limo-gold tracking-[0.25em] uppercase mb-6">
+            <h2 className="font-sans text-label text-limo-gold tracking-[0.25em] uppercase mb-6">
               Navigation
-            </h4>
-            <nav className="flex flex-col gap-2">
+            </h2>
+            <nav aria-label="Footer navigation" className="flex flex-col gap-2">
               {["About", "Concierge", "Fleet", "Services", "Booking"].map(
                 (item) => (
                   <a
                     key={item}
                     href={`#${item.toLowerCase()}`}
-                    className="font-sans text-body-small text-limo-muted hover:text-limo-white transition-colors"
+                    className="font-sans text-body-small text-limo-muted hover:text-limo-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-limo-gold focus-visible:outline-offset-2"
                   >
                     {item}
                   </a>
@@ -86,7 +92,7 @@ export default function Footer() {
           </p>
           <a
             href="/privacy"
-            className="font-sans text-body-small text-limo-muted hover:text-limo-white transition-colors"
+            className="font-sans text-body-small text-limo-muted hover:text-limo-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-limo-gold focus-visible:outline-offset-2"
           >
             Privacy Policy
           </a>
